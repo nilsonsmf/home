@@ -14,3 +14,12 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 export PATH=/home/nilson/.cargo/bin:/home/nilson/.local/bin:$PATH
 
 source ~/.bash_aliases
+
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory
+
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+bindkey  "^[[3~"  delete-char
