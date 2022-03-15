@@ -1,1 +1,5 @@
-
+alias ls="exa --icons"
+alias la="exa --icons -la"
+alias bat="bat --style=auto"
+alias vim="lvim"
+alias ll="exa --icons -l"

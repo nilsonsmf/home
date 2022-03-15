@@ -14,6 +14,7 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 export PATH=/home/nilson/.cargo/bin:/home/nilson/.local/bin:$PATH
 
 source ~/.bash_aliases
+source /opt/asdf-vm/asdf.sh
 
 HISTFILE=~/.histfile
 HISTSIZE=1000
@@ -23,3 +24,5 @@ setopt appendhistory
 bindkey  "^[[H"   beginning-of-line
 bindkey  "^[[F"   end-of-line
 bindkey  "^[[3~"  delete-char
+
+echo "nameserver 192.168.1.1" | sudo tee /etc/resolv.conf
