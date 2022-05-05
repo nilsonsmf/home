@@ -24,5 +24,10 @@ setopt appendhistory
 bindkey  "^[[H"   beginning-of-line
 bindkey  "^[[F"   end-of-line
 bindkey  "^[[3~"  delete-char
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+bindkey "^[[3;5~" kill-word
+bindkey "^H"      backward-kill-word
 
 echo "nameserver 192.168.1.1" | sudo tee /etc/resolv.conf
+echo "10.31.22.120 git.serpro" | sudo tee /etc/hosts
