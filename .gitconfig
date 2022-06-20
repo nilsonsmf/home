@@ -1,3 +1,5 @@
 [user]
 	email = nilsonsmf@live.com
 	name = Nilson Morais
+[http]
+	sslVerify = false
