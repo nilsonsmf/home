@@ -31,3 +31,6 @@ bindkey "^H"      backward-kill-word
 
 echo "nameserver 192.168.1.1" | sudo tee /etc/resolv.conf
 echo "10.31.22.120 git.serpro" | sudo tee /etc/hosts
+
+export THEFUCK_REQUIRE_CONFIRMATION=false
+eval $(thefuck --alias)
