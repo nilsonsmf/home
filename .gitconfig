@@ -1,5 +1,9 @@
 [user]
 	email = nilsonsmf@live.com
 	name = Nilson Morais
-[http]
-	sslVerify = false
+[init]
+	defaultBranch = master
+[core]
+	autocrlf = input
+[pull]
+	rebase = false

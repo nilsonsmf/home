@@ -1,2 +1,8 @@
-#!/bin/bash
-sed 's/^BASEURL=/URL=/' "$1" | grep -m 1 '^URL=' | sed 's/^URL=//' | sed 's/\r//' | xargs xdg-open
+#!/usr/bin/env bash
+set -euo pipefail
+
+[[ $# -eq 1 && -f "$1" ]] || { echo 'Usage: openURL FILE' >&2; exit 2; }
+command -v xdg-open >/dev/null || { echo 'xdg-open is required' >&2; exit 1; }
+url=$(sed -n -E 's/^(BASEURL|URL)=//p' "$1" | tr -d '\r' | head -n 1)
+[[ "$url" =~ ^https?:// ]] || { echo 'No HTTP(S) URL found' >&2; exit 1; }
+xdg-open "$url"

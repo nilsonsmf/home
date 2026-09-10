@@ -1,16 +1,21 @@
-#!/bin/sh
-#
-# Usage: screencast-window [ARGUMENTS_FOR_BYZANZ_RECORD...]
-#
-# Take a video capture, in GIF format, of a single window.
-#
-# Written in 2010 by Suraj N. Kurapati <https://github.com/sunaku>
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo 'Select the window you want to video capture...'
-byzanz-record $(xwininfo | awk '
+if [[ "${XDG_SESSION_TYPE:-}" == wayland ]]; then
+  cat >&2 <<'EOF'
+The original X11 window capture is not compatible with Wayland.
+Record a window with KDE Spectacle, then run: video2gif recording.webm
+EOF
+  exit 1
+fi
+command -v byzanz-record >/dev/null || { echo 'byzanz-record is required on X11' >&2; exit 1; }
+command -v xwininfo >/dev/null || { echo 'xwininfo is required on X11' >&2; exit 1; }
+echo 'Select the window to record...'
+read -r x y width height < <(xwininfo | awk '
   /Absolute upper-left X/ { x = $4 }
   /Absolute upper-left Y/ { y = $4 }
-  /Width/                 { w = $2 }
-  /Height/                { h = $2 }
-  END                     { print "-x", x, "-y", y, "-w", w, "-h", h }
-') -v "$@"
+  /Width/ { w = $2 }
+  /Height/ { h = $2 }
+  END { print x, y, w, h }
+')
+byzanz-record -x "$x" -y "$y" -w "$width" -h "$height" "$@"
