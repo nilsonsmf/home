@@ -105,6 +105,33 @@ install_nerd_font() {
   fc-cache -f "$HOME/.local/share/fonts"
 }
 
+detect_kde() {
+  local desktop="${XDG_CURRENT_DESKTOP:-} ${XDG_SESSION_DESKTOP:-}"
+  [[ "$desktop" == *KDE* || "$desktop" == *Plasma* ]] && return 0
+  local pkg
+  for pkg in plasma-desktop plasma-workspace kde-plasma-desktop; do
+    dpkg-query -W -f='${db:Status-Abbrev}' "$pkg" 2>/dev/null | grep -q '^ii ' && return 0
+  done
+  return 1
+}
+
+install_kde_fix_cedilla() {
+  if ! detect_kde; then
+    echo 'skip    kde-fix-cedilla (no KDE session detected)'
+    return
+  fi
+  local target="$HOME/.local/bin/fix-kde-cedilla"
+  if [[ -s "$target" ]]; then
+    echo 'ok      kde-fix-cedilla'
+    return
+  fi
+  mkdir -p "$HOME/.local/bin"
+  curl -fsSL https://raw.githubusercontent.com/nilsonsmf/kde-fix-cedilla/main/fix-kde-cedilla.sh -o "$target"
+  chmod 0755 "$target"
+  echo 'installed kde-fix-cedilla'
+  "$target" || echo 'kde-fix-cedilla reported errors; see output above.' >&2
+}
+
 validate_repo() {
   local failed=0
   zsh -n "$repo_dir/.zshrc" "$repo_dir/aliases.zsh" || failed=1
@@ -175,6 +202,9 @@ check_installation() {
   command -v starship >/dev/null 2>&1 || { echo 'missing: Starship'; failed=1; }
   command -v oh-my-posh >/dev/null 2>&1 || { echo 'missing: Oh My Posh'; failed=1; }
   fc-list 2>/dev/null | grep -qi 'JetBrainsMono Nerd Font' || { echo 'missing: JetBrainsMono Nerd Font'; failed=1; }
+  if detect_kde; then
+    [[ -s "$HOME/.local/bin/fix-kde-cedilla" ]] || { echo 'missing: kde-fix-cedilla (KDE session detected)'; failed=1; }
+  fi
   validate_repo || failed=1
   check_permissions || failed=1
   for item in "${managed_files[@]}"; do
@@ -209,6 +239,7 @@ install_oh_my_zsh
 install_starship
 install_oh_my_posh
 install_nerd_font
+install_kde_fix_cedilla
 validate_repo
 check_permissions
 

@@ -17,7 +17,7 @@ Groups:
   dev      Visual Studio Code, DBeaver Community
   browsers Zen Browser, Chromium
   proton   Proton Drive web app, Proton Authenticator, Proton Pass
-  utils    Obsidian, Sublime Text, LocalSend, Freeplane, Cryptomator
+  utils    Obsidian, Sublime Text, LocalSend, Freeplane, Cryptomator, pdf2md, rsync-gui
   games    Steam, Lutris, Heroic Games Launcher
 EOF
 }
@@ -124,6 +124,22 @@ install_proton_deb() {
   sudo apt-get install -y "$deb"
 }
 
+install_pdf2md() {
+  command -v pdf2md >/dev/null 2>&1 && { echo 'ok      pdf2md'; return; }
+  apt_install python3 python3-venv
+  curl -fsSL https://github.com/nilsonsmf/pdf2md/archive/refs/heads/main.tar.gz -o "$temp_dir/pdf2md.tar.gz"
+  tar -xzf "$temp_dir/pdf2md.tar.gz" -C "$temp_dir"
+  "$temp_dir/pdf2md-main/install.sh"
+}
+
+install_rsync_gui() {
+  command -v rsync-gui >/dev/null 2>&1 && { echo 'ok      rsync-gui'; return; }
+  apt_install rsync python3 python3-venv python3-pip
+  curl -fsSL https://github.com/nilsonsmf/rsync-gui/archive/refs/heads/main.tar.gz -o "$temp_dir/rsync-gui.tar.gz"
+  tar -xzf "$temp_dir/rsync-gui.tar.gz" -C "$temp_dir"
+  sudo "$temp_dir/rsync-gui-main/install.sh"
+}
+
 install_group() {
   case "$1" in
     social)
@@ -150,6 +166,8 @@ install_group() {
       flatpak_install md.obsidian.Obsidian org.localsend.localsend_app org.cryptomator.Cryptomator
       snap_install sublime-text classic
       apt_install freeplane
+      install_pdf2md
+      install_rsync_gui
       ;;
     games)
       flatpak_install com.valvesoftware.Steam net.lutris.Lutris com.heroicgameslauncher.hgl
