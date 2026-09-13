@@ -58,13 +58,3 @@ exec zsh
 
 Use a Nerd Font, such as JetBrainsMono Nerd Font, in the terminal profile.
 
-## Changes from the old configuration
-
-- removed hard-coded `/home/nilson` paths and WSL-only commands
-- removed root commands and changes to `/etc/hosts` and `/etc/resolv.conf` during shell startup
-- removed insecure `http.sslVerify=false`
-- made integrations conditional when their programs are installed
-- replaced the ImageMagick GIF pipeline with ffmpeg
-- documented a KDE Spectacle workflow because the old window capture is X11-only
-
-`video2gif` requires ffmpeg. `md2pdf` uses pandoc with the LaTeX base and recommended packages installed by the bootstrap.
