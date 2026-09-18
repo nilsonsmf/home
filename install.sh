@@ -23,6 +23,7 @@ managed_files=(
   "config/starship.toml:$HOME/.config/starship.toml"
   "bin/md2pdf:$HOME/.local/bin/md2pdf"
   "bin/openURL:$HOME/.local/bin/openURL"
+  "bin/restart-kdeconnect.sh:$HOME/.local/bin/restart-kdeconnect.sh"
   "bin/video2gif:$HOME/.local/bin/video2gif"
   "bin/window2gif:$HOME/.local/bin/window2gif"
 )

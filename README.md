@@ -8,6 +8,7 @@ Dotfiles for Ubuntu 26.04, KDE Plasma/Wayland and zsh.
 - Starship with the Tokyo Night preset as the default prompt
 - Oh My Posh as an optional alternative
 - portable aliases and helper scripts under `~/.local/bin`
+- `restart-kdeconnect.sh` to restart a stuck KDE Connect daemon without removing pairings
 - Git defaults without disabling TLS verification
 
 Machine-specific settings and secrets belong in `~/.config/home-shell.local.zsh`, outside this repository.
@@ -57,4 +58,3 @@ exec zsh
 ```
 
 Use a Nerd Font, such as JetBrainsMono Nerd Font, in the terminal profile.
-
